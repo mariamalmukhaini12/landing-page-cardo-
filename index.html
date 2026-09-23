@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CardO — Control your company spending</title>
+<meta name="description" content="A smarter platform for managing company spending — virtual cards, instant controls, and live tracking. Built for Oman and the GCC.">
+<link rel="canonical" href="https://cardofintech.om/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cardofintech.om/">
+<meta property="og:site_name" content="CardO">
+<meta property="og:title" content="CardO — Control your company spending">
+<meta property="og:description" content="A smarter platform for managing company spending — virtual cards, instant controls, and live tracking.">
+<meta name="theme-color" content="#1B2545">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2a14 14 0 000 28z' fill='%235CB8F2'/%3E%3Cpath d='M16 2a14 14 0 010 28z' fill='%232A8FD4'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2545; --slate:#3A4256; --muted:#7C8598; --cloud:#F4F7FB;
+    --line:#E3E9F2; --sky:#5CB8F2; --signal:#2A8FD4; --white:#fff; --error:#C62F3B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"IBM Plex Sans","IBM Plex Sans Arabic",system-ui,sans-serif;color:var(--slate);background:var(--white);line-height:1.6;-webkit-font-smoothing:antialiased}
+  html[lang="ar"] body{font-family:"IBM Plex Sans Arabic","IBM Plex Sans",system-ui,sans-serif;line-height:1.8}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+  /* header */
+  header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .bar{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+  .logo{display:flex;align-items:center;font-weight:700;font-size:24px;color:var(--navy);text-decoration:none;direction:ltr}
+  .logo i{display:inline-block;width:20px;height:20px;border-radius:50%;background:var(--sky);border:5px solid var(--signal);margin-left:1px}
+  .bar-actions{display:flex;align-items:center;gap:10px}
+  .lang{background:none;border:1px solid var(--line);border-radius:999px;padding:7px 14px;font:inherit;font-size:14px;color:var(--navy);cursor:pointer}
+  .lang:hover{border-color:var(--signal)}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:12px 22px;font:inherit;font-weight:600;font-size:15px;cursor:pointer;text-decoration:none;transition:background .15s,transform .15s}
+  .btn-primary{background:var(--signal);color:var(--white)}
+  .btn-primary:hover{background:#1F7DBF}
+  .btn-primary:active{transform:translateY(1px)}
+  .btn-sm{padding:9px 16px;font-size:14px}
+
+  /* hero */
+  .hero{background:linear-gradient(180deg,var(--cloud),var(--white));padding:72px 0 56px}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+  .eyebrow{display:inline-block;font-size:13px;font-weight:600;color:var(--signal);background:#E6F3FC;border-radius:999px;padding:5px 12px;margin-bottom:18px}
+  h1{font-size:clamp(34px,5vw,54px);line-height:1.1;color:var(--navy);letter-spacing:-.02em;margin-bottom:18px}
+  html[lang="ar"] h1{letter-spacing:0;line-height:1.3}
+  .lead{font-size:18px;max-width:520px;margin-bottom:28px}
+  .hero-note{margin-top:14px;font-size:14px;color:var(--muted)}
+
+  .card-visual{position:relative;aspect-ratio:1.586;max-width:420px;margin-inline:auto;width:100%;border-radius:20px;padding:26px;color:var(--white);
+    background:radial-gradient(circle at 85% 15%,rgba(92,184,242,.55),transparent 55%),linear-gradient(135deg,#223063,var(--navy));
+    box-shadow:0 30px 60px -20px rgba(27,37,69,.45);margin-bottom:62px;display:flex;flex-direction:column;justify-content:space-between;direction:ltr}
+  .card-top{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:20px}
+  .chip{width:40px;height:30px;border-radius:6px;background:linear-gradient(135deg,#E8D9A8,#B99B55)}
+  .card-num{font-size:20px;letter-spacing:.14em;font-weight:500}
+  .card-bottom{display:flex;justify-content:space-between;font-size:13px;opacity:.85}
+  .limit{position:absolute;bottom:-62px;right:-10px;background:var(--white);color:var(--navy);border-radius:14px;padding:12px 16px;box-shadow:0 12px 30px -10px rgba(27,37,69,.35);font-size:13px;min-width:190px}
+  .limit b{display:block;font-size:17px}
+  .meter{height:6px;background:var(--line);border-radius:6px;margin-top:8px;overflow:hidden}
+  .meter span{display:block;height:100%;width:62%;background:var(--signal)}
+
+  /* features */
+  section{padding:64px 0}
+  .section-head{text-align:center;max-width:620px;margin:0 auto 40px}
+  h2{font-size:clamp(26px,3.4vw,36px);color:var(--navy);line-height:1.2;margin-bottom:10px}
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .feature{border:1px solid var(--line);border-radius:16px;padding:26px;background:var(--white)}
+  .icon{width:44px;height:44px;border-radius:12px;background:#E6F3FC;color:var(--signal);display:grid;place-items:center;margin-bottom:16px}
+  .feature h3{font-size:18px;color:var(--navy);margin-bottom:6px}
+
+  /* demo */
+  .demo{background:var(--navy);color:#C9D4E8}
+  .demo-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start}
+  .demo h2{color:var(--white)}
+  .demo ul{list-style:none;margin-top:22px;display:grid;gap:12px}
+  .demo li{display:flex;gap:10px;align-items:flex-start}
+  .demo li::before{content:"";flex:none;width:18px;height:18px;margin-top:4px;border-radius:50%;background:var(--sky) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231B2545' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center/11px no-repeat}
+  form{background:var(--white);color:var(--slate);border-radius:18px;padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field.full{grid-column:1/-1}
+  label{font-size:14px;font-weight:600;color:var(--navy)}
+  input{font:inherit;font-size:16px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--cloud);color:var(--navy);width:100%}
+  input:focus{outline:none;border-color:var(--signal);background:var(--white);box-shadow:0 0 0 3px rgba(42,143,212,.15)}
+  input[aria-invalid="true"]{border-color:var(--error)}
+  input[type=tel]{direction:ltr}
+  html[lang="ar"] input[type=tel]{text-align:right}
+  .hp{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;opacity:0;pointer-events:none}
+  form .btn{grid-column:1/-1;padding:14px}
+  .btn[disabled]{opacity:.7;cursor:wait}
+  .status{grid-column:1/-1;font-size:14px;border-radius:10px;padding:0;min-height:0}
+  .status:not(:empty){padding:12px 14px}
+  .status.ok{background:#E7F6EE;color:#1D6B43}
+  .status.err{background:#FCEBEC;color:var(--error)}
+  .small{grid-column:1/-1;font-size:13px;color:var(--muted);text-align:center}
+
+  footer{padding:28px 0;font-size:14px;color:var(--muted);border-top:1px solid var(--line)}
+  .foot{display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:space-between;align-items:center}
+  .foot a{text-decoration:none}
+  .foot a:hover{color:var(--signal)}
+  .foot-links{display:flex;flex-wrap:wrap;gap:6px 18px}
+
+  @media (max-width:860px){
+    .hero{padding:48px 0 56px}
+    .hero-grid,.demo-grid{grid-template-columns:1fr;gap:40px}
+    .features{grid-template-columns:1fr}
+    .limit{right:0}
+  }
+  @media (max-width:520px){
+    form{grid-template-columns:1fr;padding:22px}
+    .bar .btn-sm{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#top" aria-label="CardO">Card<i></i></a>
+    <div class="bar-actions">
+      <button class="lang" id="langBtn" type="button" aria-label="Switch language">العربية</button>
+      <a class="btn btn-primary btn-sm" href="#demo" data-i18n="nav_cta">Book a demo</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow" data-i18n="eyebrow">Built for Oman &amp; the GCC</span>
+        <h1 data-i18n="h1">Smarter spending.<br>Better control.</h1>
+        <p class="lead" data-i18n="lead">Issue virtual cards to your team in seconds, set limits that enforce themselves, and see every transaction the moment it happens.</p>
+        <a class="btn btn-primary" href="#demo" data-i18n="hero_cta">Book a demo</a>
+        <p class="hero-note" data-i18n="hero_note">30-minute walkthrough · No commitment</p>
+      </div>
+      <div aria-hidden="true">
+        <div class="card-visual">
+          <div class="card-top"><span>CardO</span><span class="chip"></span></div>
+          <div class="card-num">•••• •••• •••• 4821</div>
+          <div class="card-bottom"><span>MARKETING TEAM</span><span>VIRTUAL</span></div>
+          <div class="limit"><span data-i18n="limit_label">Monthly limit</span><b>OMR 1,240 / 2,000</b><div class="meter"><span></span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <h2 data-i18n="features_h">Everything you need to control company spending</h2>
+      </div>
+      <div class="features">
+        <div class="feature">
+          <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+          <h3 data-i18n="f1_h">Virtual cards, instantly</h3>
+          <p data-i18n="f1_p">Create a card per employee, team or supplier. Freeze or cancel it with one tap.</p>
+        </div>
+        <div class="feature">
+          <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <h3 data-i18n="f2_h">Limits that enforce themselves</h3>
+          <p data-i18n="f2_p">Set spending caps and merchant rules. Payments outside policy are declined automatically.</p>
+        </div>
+        <div class="feature">
+          <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg></div>
+          <h3 data-i18n="f3_h">Real-time tracking</h3>
+          <p data-i18n="f3_p">Every transaction appears live. No more chasing receipts at month end.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="demo" id="demo">
+    <div class="wrap demo-grid">
+      <div>
+        <h2 data-i18n="demo_h">Book a demo</h2>
+        <p data-i18n="demo_p">Tell us a little about your company and we'll contact you within one business day to schedule a walkthrough.</p>
+        <ul>
+          <li data-i18n="demo_b1">See CardO set up for your company</li>
+          <li data-i18n="demo_b2">Get answers from our team</li>
+          <li data-i18n="demo_b3">Get early access pricing</li>
+        </ul>
+      </div>
+
+      <form id="demoForm" novalidate>
+        <div class="field">
+          <label for="name" data-i18n="l_name">Full name</label>
+          <input id="name" name="name" autocomplete="name" required minlength="2">
+        </div>
+        <div class="field">
+          <label for="company" data-i18n="l_company">Company</label>
+          <input id="company" name="company" autocomplete="organization" required minlength="2">
+        </div>
+        <div class="field">
+          <label for="email" data-i18n="l_email">Work email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="phone" data-i18n="l_phone">Phone</label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+968 9XXX XXXX" required>
+        </div>
+        <div class="hp" aria-hidden="true">
+          <label for="website">Website</label>
+          <input id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+        <button class="btn btn-primary" type="submit" id="submitBtn" data-i18n="submit">Request a demo</button>
+        <div class="status" id="status" role="status" aria-live="polite"></div>
+        <p class="small" data-i18n="privacy">We only use your details to contact you about CardO.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span data-i18n="legal">© 2026 Global Business Systems LLC · CR 1644714 · Muscat, Oman</span>
+    <div class="foot-links">
+      <a href="mailto:info@cardofintech.om">info@cardofintech.om</a>
+      <a href="tel:+96872323282" dir="ltr">+968 7232 3282</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var AR = {
+    nav_cta: 'احجز عرضًا توضيحيًا',
+    eyebrow: 'مصمم لسلطنة عُمان ودول الخليج',
+    h1: 'إدارة أذكى لمصروفات شركتك',
+    lead: 'أصدر بطاقات افتراضية لفريقك خلال ثوانٍ، وحدّد سقوف إنفاق تُطبَّق تلقائيًا، وتابع كل عملية لحظة حدوثها.',
+    hero_cta: 'احجز عرضًا توضيحيًا',
+    hero_note: 'جولة لمدة ٣٠ دقيقة · دون أي التزام',
+    limit_label: 'الحد الشهري',
+    features_h: 'كل ما تحتاجه للتحكم في مصروفات شركتك',
+    f1_h: 'بطاقات افتراضية فورية',
+    f1_p: 'أنشئ بطاقة لكل موظف أو فريق أو مورّد، وجمّدها أو ألغها بضغطة واحدة.',
+    f2_h: 'سقوف إنفاق تُطبَّق تلقائيًا',
+    f2_p: 'حدّد سقوف الإنفاق وقواعد التجار، وتُرفض أي عملية مخالفة للسياسة تلقائيًا.',
+    f3_h: 'متابعة فورية',
+    f3_p: 'تظهر كل عملية مباشرةً، دون الحاجة لملاحقة الإيصالات نهاية الشهر.',
+    demo_h: 'احجز عرضًا توضيحيًا',
+    demo_p: 'أخبرنا قليلًا عن شركتك، وسنتواصل معك خلال يوم عمل واحد لتحديد موعد الجولة.',
+    demo_b1: 'شاهد CardO مُعدًّا لشركتك',
+    demo_b2: 'احصل على إجابات من فريقنا',
+    demo_b3: 'احصل على أسعار الوصول المبكر',
+    l_name: 'الاسم الكامل',
+    l_company: 'الشركة',
+    l_email: 'البريد الإلكتروني للعمل',
+    l_phone: 'رقم الهاتف',
+    submit: 'اطلب عرضًا توضيحيًا',
+    privacy: 'نستخدم بياناتك فقط للتواصل معك بشأن CardO.',
+    legal: '© 2026 Global Business Systems LLC · س.ت 1644714 · مسقط، سلطنة عُمان'
+  };
+  var MSG = {
+    en: {
+      sending: 'Sending…',
+      ok: 'Thank you! Your demo request has been received. Check your inbox — we’ll be in touch within one business day.',
+      invalid: 'Please check the highlighted fields.',
+      fail: 'Sorry, we couldn’t send your request. Please email us at <a href="mailto:info@cardofintech.om">info@cardofintech.om</a> or call +968 7232 3282.'
+    },
+    ar: {
+      sending: 'جارٍ الإرسال…',
+      ok: 'شكرًا لك! تم استلام طلبك للعرض التوضيحي. تحقق من بريدك الإلكتروني — سنتواصل معك خلال يوم عمل واحد.',
+      invalid: 'يرجى التحقق من الحقول المحددة.',
+      fail: 'عذرًا، تعذّر إرسال طلبك. يرجى مراسلتنا على <a href="mailto:info@cardofintech.om">info@cardofintech.om</a> أو الاتصال على <span dir="ltr">+968 7232 3282</span>.'
+    }
+  };
+
+  var nodes = document.querySelectorAll('[data-i18n]');
+  var EN = {};
+  nodes.forEach(function (n) { EN[n.dataset.i18n] = n.innerHTML; });
+  var lang = 'en';
+
+  function setLang(l) {
+    lang = l;
+    var dict = l === 'ar' ? AR : EN;
+    nodes.forEach(function (n) { if (dict[n.dataset.i18n]) n.innerHTML = dict[n.dataset.i18n]; });
+    document.documentElement.lang = l;
+    document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr';
+    document.getElementById('langBtn').textContent = l === 'ar' ? 'English' : 'العربية';
+    try { localStorage.setItem('cardo-lang', l); } catch (e) {}
+  }
+  document.getElementById('langBtn').addEventListener('click', function () { setLang(lang === 'ar' ? 'en' : 'ar'); });
+  try { if (localStorage.getItem('cardo-lang') === 'ar') setLang('ar'); } catch (e) {}
+
+  var form = document.getElementById('demoForm');
+  var btn = document.getElementById('submitBtn');
+  var status = document.getElementById('status');
+
+  function show(kind, html) { status.className = 'status ' + kind; status.innerHTML = html; }
+
+  function validate() {
+    var ok = true;
+    var checks = {
+      name: function (v) { return v.trim().length >= 2; },
+      company: function (v) { return v.trim().length >= 2; },
+      email: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()); },
+      phone: function (v) { var d = v.replace(/\D/g, ''); return d.length >= 8 && d.length <= 15; }
+    };
+    Object.keys(checks).forEach(function (k) {
+      var el = form.elements[k];
+      var good = checks[k](el.value);
+      el.setAttribute('aria-invalid', good ? 'false' : 'true');
+      if (!good && ok) el.focus();
+      ok = ok && good;
+    });
+    return ok;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!validate()) { show('err', MSG[lang].invalid); return; }
+
+    var label = btn.innerHTML;
+    btn.disabled = true;
+    btn.textContent = MSG[lang].sending;
+    show('', '');
+
+    var payload = {
+      name: form.elements.name.value,
+      company: form.elements.company.value,
+      email: form.elements.email.value,
+      phone: form.elements.phone.value,
+      website: form.elements.website.value,
+      language: lang === 'ar' ? 'Arabic' : 'English'
+    };
+
+    fetch('/api/demo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok && j.ok, j: j }; }); })
+      .then(function (res) {
+        if (res.ok) { form.reset(); show('ok', MSG[lang].ok); }
+        else show('err', MSG[lang].fail);
+      })
+      .catch(function () { show('err', MSG[lang].fail); })
+      .finally(function () { btn.disabled = false; btn.innerHTML = label; });
+  });
+})();
+</script>
+</body>
+</html>
